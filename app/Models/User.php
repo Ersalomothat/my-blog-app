@@ -52,7 +52,7 @@ class User extends Authenticatable
         return $this->belongsTo(Type::class, 'type', 'id');
     }
 
-    function getPictureAttribute($value)
+    public function getPictureAttribute($value)
     {
         if ($value) {
             return asset("back/dist/img/authors/" . $value);
@@ -61,7 +61,7 @@ class User extends Authenticatable
         }
     }
 
-    function scopeSearch($query, $term)
+    public function scopeSearch($query, $term)
     {
         $term = "%$term%";
         $query->where(function ($query) use ($term) {
