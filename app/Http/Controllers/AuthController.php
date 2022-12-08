@@ -14,11 +14,12 @@ class AuthController extends Controller
     {
         return view('back.pages.home');
     }
-    function logout()
+    public function logout()
     {
         Auth::guard('web')->logout();
         return redirect()->route('author.login');
     }
+
     public function ResetForm(Request $request, $token = null)
     {
         $data = [
@@ -26,7 +27,8 @@ class AuthController extends Controller
         ];
         return view('back.pages.auth.reset', $data)->with(['token' => $token, 'email' => $request->email]);
     }
-    function changeProfilePicture(Request $request)
+
+    public function changeProfilePicture(Request $request)
     {
         $user = User::find(auth("web")->id());
         $path = "back/dist/img/authors/";
@@ -48,7 +50,8 @@ class AuthController extends Controller
             return response()->json(['status' => 0, 'Something went wrong']);
         }
     }
-    function changeBlogLogo(Request $request)
+
+    public function changeBlogLogo(Request $request)
     {
 
         $settings =  Setting::find(1);
@@ -75,6 +78,29 @@ class AuthController extends Controller
                     'msg' => 'Something went wrong'
                 ]);
             }
+        }
+    }
+
+    public function changeBlogFavicon(Request $request)
+    {
+        $settings = Setting::find(1);
+        $favicon_path = 'back/dist/img/logo-favicon';
+        $old_favicon = $settings->getAttributes()['blog_favicon'];
+        $file = $request->file('blog_favicon');
+        $filename = time() . '_' . rand(1, 2000) . '_larablog_favicon.ico';
+
+        if ($old_favicon != null && File::exists(public_path($favicon_path . $old_favicon))) {
+            File::delete(public_path($favicon_path . $old_favicon));
+        }
+
+        $upload = $file->move(public_path($favicon_path), $filename);
+        if ($upload) {
+            $settings->update([
+                'blog_favicon' => $filename
+            ]);
+            return response()->json(['status' => 1, 'msg' => 'Blog favicon has been successfully updated.']);
+        } else {
+            return response()->json(['status' => 0, 'msg' => 'Something went wrong']);
         }
     }
 }

@@ -6,8 +6,8 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-                <img src="{{ App\Models\Setting::find(1)->blog_logo ?? '' }}" width="35" height="32" alt="Tabler"
-                    class="">
+                <img src="{{ App\Models\Setting::find(1)->blog_logo }}" width="35" height="32" alt="Tabler"
+                    class="navbar-brand-image">
             </h1>
             <div class="navbar-nav flex-row order-md-last">
                 <a href="?theme=dark" class="nav-link px-0 hide-theme-dark" title="Enable dark mode"
@@ -49,9 +49,7 @@
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-card">
                         <div class="card">
                             <div class="card-body">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ad amet consectetur
-                                exercitationem fugiat in ipsa ipsum, natus odio quidem quod repudiandae sapiente. Amet
-                                debitis et magni maxime necessitatibus ullam.
+                                lorem
                             </div>
                         </div>
                     </div>
@@ -73,7 +71,7 @@
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                         <a href="/#" class="dropdown-item">Set status</a>
                         <a href="{{ route('author/profile') }}" class="dropdown-item">Profile & account</a>
-                        <a href="##" class="dropdown-item">Feedback</a>
+                        <a href="#" class="dropdown-item">Feedback</a>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">Settings</a>
                         <a href="{{ route('author/logout') }}" class="dropdown-item"
@@ -93,8 +91,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link">
-
+                            <a class="nav-link" href="{{ route('author.categories') }}">
                                 <span class="nav-link-title">
                                     Menu & Categories
                                 </span>
@@ -120,10 +117,10 @@
                                 </span>
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/#">
+                                <a class="dropdown-item" href="{{ route('author.posts.add-post') }}">
                                     Add New
                                 </a>
-                                <a class="dropdown-item" href="/#">
+                                <a class="dropdown-item" href="{{ route('author.posts.all-posts') }}">
                                     All Posts
                                 </a>
 
@@ -143,9 +140,6 @@
                                     <div class="dropdown-menu-column">
                                         <a class="dropdown-item" href="{{ route('author/settings') }}">
                                             General Settings
-                                        </a>
-                                        <a class="dropdown-item" href="/#">
-                                            Profile
                                         </a>
 
                                     </div>

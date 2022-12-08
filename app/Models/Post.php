@@ -9,6 +9,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 class Post extends Model
 {
     use HasFactory;
+    use Sluggable;
     protected $fillable = [
         'author_id',
         'category_id',
@@ -17,6 +18,13 @@ class Post extends Model
         'post_content',
         'featured_image',
     ];
+    public function scopeSearch($query, $term)
+    {
+        $term = "%$term%";
+        $query->where(function ($q) use ($term) {
+            $q->where('post_title', 'like', $term);
+        });
+    }
 
     public function sluggable(): array
     {

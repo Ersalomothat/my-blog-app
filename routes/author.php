@@ -20,14 +20,17 @@ Route::prefix('author')->name("author")->group(function () {
         Route::post('change-profile-picture', [AuthController::class, "changeProfilePicture"])->name("/change.profile.picture");
         Route::view('settings', 'back/pages/settings')->name('/settings');
         Route::post('change-blog-logo', [AuthController::class, "changeBlogLogo"])->name("/change-blog-logo");
-        Route::post('/change-blog-favicon', [AuthorController::class, 'changeBlogFavicon'])->name('change-blog-favicon');
-        Route::view('author', 'back.pages.authors')->name('/authors');
-        Route::view('/categories', 'back.pages.categories')->name('categories');
+        Route::post('/change-blog-favicon', [AuthController::class, 'changeBlogFavicon'])->name('.change-blog-favicon');
+        Route::view('authors', 'back.pages.authors')->name('/authors');
+        Route::view('/categories', 'back.pages.categories')->name('.categories');
 
 
-        Route::prefix('posts')->name('posts.')->group(function () {
+        Route::prefix('posts')->name('.posts.')->group(function () {
             Route::view('/add-post', 'back.pages.add-post')->name('add-post');
-            Route::post('/create', [AuthorController::class, 'createPost'])->name('create');
+            Route::post('/create', [AuthController::class, 'createPost'])->name('create');
+            Route::view('/all-posts', 'back.pages.all-posts')->name('all-posts');
+            Route::get('/edit-post', [AuthController::class, 'editPost'])->name('edit-post');
+            Route::delete('/edit-update', [AuthController::class, 'updatePost'])->name('update-post');
         });
     });
 });

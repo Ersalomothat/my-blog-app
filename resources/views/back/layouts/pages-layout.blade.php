@@ -44,7 +44,7 @@
     <script src="{{ asset('back/dist/libs/ijaboViewer/jquery.ijaboViewer.min.js') }}"></script>
     <!-- Tabler Core -->
     <script src="./back/dist/js/tabler.min.js"></script>
-    <script src="./back/dist/js/demo.min.js"></script>
+
     @stack('scripts')
     @livewireScripts
     <script>
@@ -63,6 +63,8 @@
             }
         })
     </script>
+    @stack('scripts')
+    <script script src="./back/dist/js/demo.min.js"></script>
 </body>
 
 </html>

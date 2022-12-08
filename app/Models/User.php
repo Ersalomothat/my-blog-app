@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -68,5 +69,10 @@ class User extends Authenticatable
             $query->where('name', 'LIKE', $term)
                 ->orWhere('email', 'LIKE', $term);
         });
+    }
+
+    public function posts(): HasMany | BelongsTo
+    {
+        return $this->hasMany(Post::class, 'author_id');
     }
 }

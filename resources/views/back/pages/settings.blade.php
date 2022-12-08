@@ -7,8 +7,8 @@
                 Settings
             </div>
         </div>
-
     </div>
+
     <div class="card">
         <ul class="nav nav-tabs" data-bs-toggle="tabs">
             <li class="nav-item">
@@ -47,13 +47,28 @@
                                     <button type="submit" class="btn btn-primary">Change logo</button>
                                 </form>
                             </div>
-                            <div class="col-md-6"></div>
+                            <div class="col-md-6">
+                                <h3>Set blog favicon</h3>
+                                <div class="mb-2" style="max-width: 100px">
+                                    <img src="" id="favicon-image-preview" class="img-thumbnail"
+                                        data-ijabo-default-img="{{ \App\Models\Setting::find(1)->blog_favicon }}">
+                                </div>
+                                <form action="{{ route('author.change-blog-favicon') }}" method="post"
+                                    id="changeBlogFaviconForm">
+                                    @csrf
+                                    <div class="mb-2">
+                                        <input type="file" name="blog_favicon" class="form-control">
+                                    </div>
+                                    <button class="btn btn-primary">Change favicon</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="tabs-activity-17">
-                    <div>Donec ac vitae diam amet vel leo egestas consequat rhoncus in luctus amet, facilisi sit mauris
-                        accumsan nibh habitant senectus</div>
+                    <div>
+                        <livewire:author-blog-social-media-form />
+                    </div>
                 </div>
             </div>
         </div>
@@ -71,11 +86,22 @@
             onInvalidShape: function(message, element) {
                 alert(message)
             },
+            onSuccess: function(message, element) {}
+        })
+        $('input[name="blog_favicon"]').ijaboViewer({
+            preview: '#favicon-image-preview',
+            imageShape: 'square',
+            allowedExtensions: ['ico'],
+            onErrorShape: function(message, element) {
+                alert(message);
+            },
+            onInvalidType: function(message, element) {
+                alert(message);
+            },
             onSuccess: function(message, element) {
 
             }
-
-        })
+        });
         $('#changeBlogLogoForm').submit(function(e) {
             e.preventDefault();
             var form = this;
@@ -84,7 +110,7 @@
                 method: $(form).attr('method'),
                 data: new FormData(form),
                 processData: false,
-                dataType: 'json",
+                dataType: 'json',
                 contentType: false,
                 beforeSend: function() {
 
