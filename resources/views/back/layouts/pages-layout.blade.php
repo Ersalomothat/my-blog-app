@@ -8,13 +8,17 @@
     <title>@yield('pageTitle')</title>
     <!-- CSS files -->
     <base href="/">
-    <link href="./back/dist/css/tabler.min.css" rel="stylesheet" />
-    <link href="./back/dist/css/tabler-flags.min.css" rel="stylesheet" />
-    <link href="./back/dist/css/tabler-payments.min.css" rel="stylesheet" />
-    <link href="./back/dist/css/tabler-vendors.min.css" rel="stylesheet" />
-    <link href="./back/dist/libs/iJabo/ijabo.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('/back/dist/libs/ijaboCroptool/ijaboCroptool.min.css') }}">
-    <link href="./back/dist/css/demo.min.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="{{ \App\Models\Setting::find(1)->blog_favicon }}" type="image/x-icon">
+    <link href="/back/dist/css/tabler.min.css" rel="stylesheet" />
+    <link href="/back/dist/css/tabler-flags.min.css" rel="stylesheet" />
+    <link href="/back/dist/css/tabler-payments.min.css" rel="stylesheet" />
+    <link href="/back/dist/css/tabler-vendors.min.css" rel="stylesheet" />
+    <link href="/back/dist/libs/iJabo/ijabo.min.css" rel="stylesheet" />
+    <link href="/back/dist/libs/ijaboCropTool/ijaboCropTool.min.css" rel="stylesheet">
+    <link href="/jquery-ui-1.13.2/jquery-ui.min.css" rel="stylesheet">
+    <link href="/jquery-ui-1.13.2/jquery-ui.structure.min.css" rel="stylesheet">
+    <link href="/jquery-ui-1.13.2/jquery-ui.theme.min.css" rel="stylesheet">
+    <link href="/amsify/amsify.suggestags.css" rel="stylesheet">
     @stack('stylesheets')
     @livewireStyles
 </head>
@@ -37,17 +41,20 @@
     </div>
 
     <!-- Libs JS -->
-    <script src="{{ asset('back/dist/libs/jQuery/jquery.js') }}"></script>
-    <script src="./back/dist/libs/apexcharts/dist/apexcharts.min.js"></script>
-    <script src="{{ asset('back/dist/libs/iJabo/ijabo.min.js') }}"></script>
-    <script src="{{ asset('back/dist/libs/ijaboCroptool/ijaboCropTool.min.js') }}"></script>
-    <script src="{{ asset('back/dist/libs/ijaboViewer/jquery.ijaboViewer.min.js') }}"></script>
+    <script src="/back/dist/libs/jquery/jquery-3.6.0.min.js"></script>
+    <script src="/back/dist/libs/ijabo/ijabo.min.js"></script>
+    <script src="/back/dist/libs/ijaboCropTool/ijaboCropTool.min.js"></script>
+    <script src="/back/dist/libs/ijaboViewer/jquery.ijaboViewer.min.js"></script>
+    <script src="/back/dist/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="/jquery-ui-1.13.2/jquery-ui.min.js"></script>
+    {{-- <script src="/tagbale/jquery.amsify.suggestags.js"></script> --}}
+    <script src="/amsify/jquery.amsify.suggestags.js"></script>
     <!-- Tabler Core -->
-    <script src="./back/dist/js/tabler.min.js"></script>
-
+    <script src="/back/dist/js/tabler.min.js"></script>
     @stack('scripts')
     @livewireScripts
     <script>
+        $('input[name="post_tags"]').amsifySuggestags();
         window.addEventListener("showToastr", function(event) {
             toastr.remove();
             if (event.detail.type === 'info') {
@@ -63,7 +70,6 @@
             }
         })
     </script>
-    @stack('scripts')
     <script script src="./back/dist/js/demo.min.js"></script>
 </body>
 

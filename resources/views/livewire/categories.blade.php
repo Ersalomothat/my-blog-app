@@ -22,7 +22,7 @@
                                     <th class="w-1"></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="sortbale_category">
                                 @forelse($categories as $category)
                                     <tr>
                                         <td>{{ $category->category_name }}</td>

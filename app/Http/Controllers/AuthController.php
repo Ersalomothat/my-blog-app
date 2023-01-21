@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use App\Models\User;
+use App\Models\{User, Post};
 use App\Models\Setting;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class AuthController extends Controller
 {
@@ -101,6 +103,175 @@ class AuthController extends Controller
             return response()->json(['status' => 1, 'msg' => 'Blog favicon has been successfully updated.']);
         } else {
             return response()->json(['status' => 0, 'msg' => 'Something went wrong']);
+        }
+    }
+
+    public function createPost(Request $request)
+    {
+        $request->validate([
+            'post_title' => 'required|unique:posts,post_title',
+            'post_content' => 'required',
+            'post_category' => 'required|exists:sub_categories,id',
+            'featured_image' => 'required|mimes:jpeg,jpg,png|max:1024',
+        ]);
+
+        if ($request->hasFile('featured_image')) {
+            $path = "images/post_images/";
+            $file = $request->file('featured_image');
+            $filename = $file->getClientOriginalName();
+            $new_filename = time() . '_' . $filename;
+
+            $upload = Storage::disk('public')->put($path . $new_filename, (string) file_get_contents($file));
+            $post_thumbnails_path = $path . '/thumbnails';
+            if (!Storage::disk('public')->exists($post_thumbnails_path)) {
+                Storage::disk('public')->makeDirectory($post_thumbnails_path, 0755, true, true);
+            }
+
+
+            // create square thumbnail
+            Image::make(storage_path('app/public/' . $path . $new_filename))
+                ->fit(200, 200)
+                ->save(
+                    storage_path(
+                        'app/public/' . $path . 'thumbnails/' . 'thumb_' . $new_filename
+                    )
+                );
+            // create resized image
+            Image::make(storage_path('app/public/' . $path . $new_filename))
+                ->fit(500, 350)
+                ->save(
+                    storage_path(
+                        'app/public/' . $path . 'thumbnails/' . 'resized_' . $new_filename
+                    )
+                );
+
+            if ($upload) {
+                $post = new Post();
+                $post->author_id = auth()->id();
+                $post->category_id = $request->post_category;
+                $post->post_title = $request->post_title;
+                // $post->post_slug = null;
+                $post->post_content = $request->post_content;
+                $post->featured_image = $new_filename;
+                $post->post_tags = $request->post_tags;
+                $saved = $post->save();
+
+                if ($saved) {
+                    return response()->json(['code' => 1, 'msg' => 'New post has been successfully created.']);
+                } else {
+                    return response()->json(['code' => 3, 'msg' => 'Something went wrong ins saving post data.']);
+                }
+            } else {
+                return response()->json(['code' => 3, 'msg' => 'Something went wrong for uploading featured image.']);
+            }
+        }
+    }
+    public function editPost(Request $request)
+    {
+        if (!$request->post_id) {
+            abort(404);
+        } else {
+            $post = Post::findOrFail($request->post_id);
+            $data = [
+                'post' => $post,
+                'pageTitle' => 'Edit Post'
+            ];
+            return view('back.pages.edit-posts', $data);
+        }
+    }
+    public function updatePost(Request $request)
+    {
+        if ($request->hasFile('featured_image')) {
+            $request->validate([
+                'post_title' => 'required|unique:posts,post_title,' . $request->post_id,
+                'post_content' => 'required',
+                'post_category' => 'required|exists:sub_categories,id',
+                'featured_image' => 'required|mimes:jpeg,jpg,png|max:1024',
+            ]);
+            $path = 'images/post_images/';
+            $file = $request->file('featured_image');
+            $filename = $file->getClientOriginalName();
+            $new_filename = time() . '_' . $filename;
+            $upload = Storage::disk('public')->put(
+                $path,
+                $new_filename,
+                (string) file_get_contents($file)
+            );
+            $post_thumbnails_path = $path . 'thumbnails/';
+            if (!Storage::disk('public')->exists($post_thumbnails_path)) {
+                Storage::disk('public')->makeDirectory($post_thumbnails_path, 0755, true, true);
+            }
+
+            // create square thumbnail
+            Image::make(storage_path('app/public/' . $path . $new_filename))
+                ->fit(200, 200)
+                ->save(
+                    storage_path(
+                        'app/public/' . $path . 'thumbnails/' . 'thumb_' . $new_filename
+                    )
+                );
+            // create resized image
+            Image::make(storage_path('app/public/' . $path . $new_filename))
+                ->fit(500, 350)
+                ->save(
+                    storage_path(
+                        'app/public/' . $path . 'thumbnails/' . 'resized_' . $new_filename
+                    )
+                );
+            if ($upload) {
+                $old_post_image = Post::findOrFail($request->post_id)->featured_image;
+                if ($old_post_image != null && Storage::disk('public')->exists($path . $old_post_image)) {
+                    Storage::disk('public')->delete($path . $old_post_image);
+                    if (Storage::disk('public')->exists($path . 'thumbnails/resized_' . $old_post_image)) {
+                        Storage::disk('public')->delete($path . 'thumbnails/resized_' . $old_post_image);
+                    }
+                    if (Storage::disk('public')->exists($path . 'thumbnails/thumb_' . $old_post_image)) {
+                        Storage::disk('public')->delete($path . 'thumbnails/thumb_' . $old_post_image);
+                    }
+                }
+                $post = new Post();
+                $post->author_id = auth()->id();
+                $post->category_id = $request->post_category;
+                $post->post_title = $request->post_title;
+                //  $post->post_slug = Str::slug($request->post_title);
+                $post->post_content = $request->post_content;
+                $post->featured_image = $new_filename;
+                $saved = $post->save();
+
+                if ($saved) {
+                    return response()->json(['code' => 1, 'msg' => 'New post has been successfully created.']);
+                } else {
+                    return response()->json(['code' => 3, 'msg' => 'Something went wrong ins saving post data.']);
+                }
+            } else {
+                return response()->json(['code' => 3, 'msg' => 'Something went wrong for uploading featured image.']);
+            }
+        } else {
+            $request->validate([
+                'post_title' => 'required|unique:posts,post_title,' . $request->post_id,
+                'post_content' => 'required',
+                'post_category' => 'required|exists:sub_categories,id',
+                'featured_image' => 'required|mimes:jpeg,jpg,png|max:1024',
+            ]);
+            $post = Post::findOrFail($request->post_id);
+            $post->category_id = $request->post_category;
+            $post->post_title = $request->post_title;
+            $post->post_slug = null;
+            $post->post_content = $request->post_content;
+            $saved = $post->save();
+            if ($saved) {
+                return response()->json([
+                    'status' => true,
+                    'code' => 1,
+                    'msg' => 'Successfully updated data post'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'code' => 3,
+                    'msg' => 'There are something went wrong!'
+                ]);
+            }
         }
     }
 }

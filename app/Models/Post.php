@@ -18,13 +18,6 @@ class Post extends Model
         'post_content',
         'featured_image',
     ];
-    public function scopeSearch($query, $term)
-    {
-        $term = "%$term%";
-        $query->where(function ($q) use ($term) {
-            $q->where('post_title', 'like', $term);
-        });
-    }
 
     public function sluggable(): array
     {
@@ -33,5 +26,21 @@ class Post extends Model
                 'source' => 'post_title'
             ]
         ];
+    }
+    public function scopeSearch($query, $term)
+    {
+        $term = "%$term%";
+        $query->where(function ($q) use ($term) {
+            $q->where('post_title', 'like', $term);
+        });
+    }
+    public function subcategory()
+    {
+        return $this->belongsTo(SubCategory::class, 'category_id', 'id');
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id', 'id');
     }
 }

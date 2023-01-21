@@ -75,5 +75,22 @@
                 }
             })
         })
+        $('table tbody#sortbale_category').sortable({
+            update: function(event, id) {
+                $(this).children().each(function(index) {
+                    if ($(this).attr('data-ordering') != (index + 1)) {
+                        $(this).attr('data-ordering', (index + 1)).addClass('updated')
+                    }
+                })
+                var position = []
+                $('.updated').each(function() {
+                    position.push([$(this).attr('data-index'), $(this).attr('data-ordering')])
+                    $(this).removeClass('updated')
+                    // alert(position)
+                })
+                Livewire.emit('updateCategoryOrdering', position)
+
+            }
+        })
     </script>
 @endpush

@@ -208,4 +208,16 @@ class Categories extends Component
             'subcategories' => SubCategory::orderBy('ordering', 'asc')->get()
         ]);
     }
+
+    public function updateCategoryOrdering($positions)
+    {
+        foreach ($positions as $position) {
+            $index = $position[0];
+            $newPosition = $position[1];
+            Category::find($index)->update([
+                'ordering' => $newPosition,
+            ]);
+        }
+        $this->showToastr('Categorise ordering have been updated', 'success');
+    }
 }

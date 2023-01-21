@@ -45,6 +45,11 @@
                             <input type="file" class="form-control" name="featured_image">
                             <span class="text-danger error-text featured_image_error"></span>
                         </div>
+                        <div class="mb-3">
+                            <div class="form-label">Post Tag</div>
+                            <input type="text" name="post_tags" class="form-control" />
+                            <span class="text-danger error-text featured_image_error"></span>
+                        </div>
                         <div class="image_holder mb-2" style="max-width: 250px">
                             <img src="" alt="" class="img-thumbnail" id="image-previewer"
                                 data-ijabo-default-img=''>
@@ -105,6 +110,8 @@
                     },
                     error: function(response) {
                         toastr.remove();
+                        console.log(response);
+                        toastr.error(response.statusText);
                         $.each(response.responseJSON.errors, function(prefix, val) {
                             $(form).find('span.' + prefix + '_error').text(val[0]);
                         });
