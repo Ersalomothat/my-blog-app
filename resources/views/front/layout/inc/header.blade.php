@@ -26,17 +26,19 @@
                             </a>
                             <div class="dropdown-menu">
                                 @foreach (\App\Models\SubCategory::where('parent_category', $category->id)->WhereHas('posts')->get() as $subCategory)
-                                    <a href="" class="dropdown-item">{{ __($subCategory->subcategory_name) }}</a>
+                                    <a href="{{ route('category_post', $subCategory->slug) }}"
+                                        class="dropdown-item">{{ __($subCategory->subcategory_name) }}</a>
                                 @endforeach
                             </div>
                         </li>
                     @endforeach
                     @foreach (\App\Models\SubCategory::where('parent_category', 0)->whereHas('posts')->get() as $unsubcategory)
                         <li class="nav-item">
-                            <a class="nav-link" href="">{{ __($unsubcategory->subcategory_name) }}</a>
+                            <a class="nav-link"
+                                href="{{ route('category_post', $unsubcategory->slug) }}">{{ __($unsubcategory->subcategory_name) }}</a>
                         </li>
                     @endforeach
-                    <li class="nav-item"> <a class="nav-link" href="contact.html">Contact</a>
+                    <li class="nav-item"> <a class="nav-link" href="">Contact</a>
                     </li>
                 </ul>
             </div>
