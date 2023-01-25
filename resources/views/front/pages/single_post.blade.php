@@ -4,54 +4,32 @@
     <section class="section">
         <div class="container">
             <div class="row">
-                <div class="col-12">
-                    <h1 class="mb-4 border-bottom border-primary d-inline-block">{{ $category->subcategory_name }}</h1>
-                </div>
                 <div class="col-lg-8 mb-5 mb-lg-0">
-                    <div class="row">
-                        @forelse($posts as $post)
-                            <div class="col-md-6 mb-4">
-                                <article class="card article-card article-card-sm h-100">
-                                    <a href="{{ route('read_post', $post->post_slug) }}">
-                                        <div class="card-image">
-                                            <div class="post-info"> <span class="text-uppercase">04 Jun 2021</span>
-                                                <span class="text-uppercase">3 minutes read</span>
-                                            </div>
-                                            <img loading="lazy" decoding="async"
-                                                src="/storage/images/post_images/{{ $post->featured_image }}"
-                                                alt="Post Thumbnail" class="w-100" width="420" height="280">
-                                        </div>
-                                    </a>
-                                    <div class="card-body px-0 pb-0">
-                                        <ul class="post-meta mb-2">
-                                            <li> <a href="#!">travel</a>
-                                                <a href="#!">news</a>
-                                            </li>
-                                        </ul>
-                                        <h2><a class="post-title" href="{{ route('read_post', $post->post_slug) }}">Is It
-                                                Ethical to
-                                                Travel Now? With That Freedom
-                                                Comes Responsibility.</a></h2>
-                                        <p class="card-text">Heading Here is example of hedings. You can use this heading by
-                                            following
-                                            markdownify rules. For example: use # for …</p>
-                                        <div class="content"> <a class="read-more-btn"
-                                                href="{{ route('read_post', $post->post_slug) }}">Read Full
-                                                Article</a>
-                                        </div>
-                                    </div>
-                                </article>
-                            </div>
-                        @empty
-                        @endforelse
-                    </div>
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-12">
-                                {{ $posts->appends(request()->input())->links('custom_pagination') }}
-                            </div>
-                        </div>
-                    </div>
+                    <article>
+                        <img loading="lazy" decoding="async" src="/storage/images/post_images/{{ $post->featured_image }}"
+                            alt="Post Thumbnail" class="w-100">
+                        <ul class="post-meta mb-2 mt-4">
+                            <li>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    style="margin-right:5px;margin-top:-4px" class="text-dark" viewBox="0 0 16 16">
+                                    <path d="M5.5 10.5A.5.5 0 0 1 6 10h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z"></path>
+                                    <path
+                                        d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2z">
+                                    </path>
+                                    <path
+                                        d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V4z">
+                                    </path>
+                                </svg> <span>29 May, 2021</span>
+                            </li>
+                        </ul>
+                        <h1 class="my-3">{{ $post->post_title }}</h1>
+                        <ul class="post-meta mb-4">
+                            <li> <a href="/categories/destination">destination</a>
+                            </li>
+                        </ul>
+                        <div class="content text-left">{!! $post->post_content !!}</div>
+                    </article>
+
                 </div>
                 <div class="col-lg-4">
                     <div class="widget-blocks">
@@ -63,9 +41,8 @@
                                             class="w-100 author-thumb-sm d-block">
                                         <h2 class="widget-title my-3">Hootan Safiyari</h2>
                                         <p class="mb-3 pb-2">Hello, I’m Hootan Safiyari. A Content writter, Developer and
-                                            Story
-                                            teller. Working as a Content writter at CoolTech Agency. Quam nihil …</p> <a
-                                            href="about.html" class="btn btn-sm btn-outline-primary">Know
+                                            Story teller. Working as a Content writter at CoolTech Agency. Quam nihil …</p>
+                                        <a href="about.html" class="btn btn-sm btn-outline-primary">Know
                                             More</a>
                                     </div>
                                 </div>
@@ -84,15 +61,13 @@
                                                         alt="Post Thumbnail" class="w-100">
                                                 </div>
                                                 <div class="card-body px-0 pb-1">
-                                                    <h3><a class="post-title post-title-sm" href="article.html">Portugal and
-                                                            France Now
+                                                    <h3><a class="post-title post-title-sm" href="article.html">Portugal
+                                                            and France Now
                                                             Allow Unvaccinated Tourists</a></h3>
                                                     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                        elit,
-                                                        sed do eiusmod tempor …</p>
+                                                        elit, sed do eiusmod tempor …</p>
                                                     <div class="content"> <a class="read-more-btn" href="article.html">Read
-                                                            Full
-                                                            Article</a>
+                                                            Full Article</a>
                                                     </div>
                                                 </div>
                                             </article>
@@ -109,9 +84,8 @@
                                                     class="image-fallback image-fallback-xs">No Image Specified</span>
                                                 <div class="media-body ml-3">
                                                     <h3 style="margin-top:-5px">No Image specified</h3>
-                                                    <p class="mb-0 small">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                        …
-                                                    </p>
+                                                    <p class="mb-0 small">Lorem ipsum dolor sit amet, consectetur
+                                                        adipiscing …</p>
                                                 </div>
                                             </a>
                                             <a class="media align-items-center" href="article.html">
@@ -119,9 +93,8 @@
                                                     alt="Post Thumbnail" class="w-100">
                                                 <div class="media-body ml-3">
                                                     <h3 style="margin-top:-5px">Perfect For Fashion</h3>
-                                                    <p class="mb-0 small">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                        …
-                                                    </p>
+                                                    <p class="mb-0 small">Lorem ipsum dolor sit amet, consectetur
+                                                        adipiscing …</p>
                                                 </div>
                                             </a>
                                             <a class="media align-items-center" href="article.html">
@@ -130,36 +103,26 @@
                                                 <div class="media-body ml-3">
                                                     <h3 style="margin-top:-5px">Record Utra Smooth Video</h3>
                                                     <p class="mb-0 small">Lorem ipsum dolor sit amet, consectetur
-                                                        adipiscing …
-                                                    </p>
+                                                        adipiscing …</p>
                                                 </div>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            @if (categories())
-                                <div class="col-lg-12 col-md-6">
-                                    <div class="widget">
-                                        <h2 class="section-title mb-3">Categories</h2>
-                                        <div class="widget-body">
-                                            <ul class="widget-list">
-                                                @foreach (categories() as $category)
-                                                    <li><a href="{{ route('category_post', $category->slug) }}">{{ Str::ucfirst(words($category->subcategory_name)) }}<span
-                                                                class="ml-auto">({{ 0 }})</span></a>
-                                                        {{-- $item->posts->count() --}}
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
+                            <div class="col-lg-12 col-md-6">
+                                <div class="widget">
+                                    <h2 class="section-title mb-3">Categories</h2>
+                                    <div class="widget-body">
+                                        <ul class="widget-list">
+                                        </ul>
                                     </div>
                                 </div>
-                            @endif
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
 @stop

@@ -1,11 +1,11 @@
 @extends('front.layout.pages-layout')
-@section('title', isset($pageTitle) ? $pageTitle : 'Category Post')
+@section('title', isset($pageTitle) ? $pageTitle : 'Search Posts')
 @section('content')
     <section class="section">
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h1 class="mb-4 border-bottom border-primary d-inline-block">{{ $category->subcategory_name }}</h1>
+                    <h1 class="mb-4 border-bottom border-primary d-inline-block">{{ $pageTitle }}</h1>
                 </div>
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     <div class="row">
@@ -17,8 +17,7 @@
                                             <div class="post-info"> <span class="text-uppercase">04 Jun 2021</span>
                                                 <span class="text-uppercase">3 minutes read</span>
                                             </div>
-                                            <img loading="lazy" decoding="async"
-                                                src="/storage/images/post_images/{{ $post->featured_image }}"
+                                            <img loading="lazy" decoding="async" src="images/post/post-1.jpg"
                                                 alt="Post Thumbnail" class="w-100" width="420" height="280">
                                         </div>
                                     </a>
@@ -43,6 +42,7 @@
                                 </article>
                             </div>
                         @empty
+                            <span class="text-danger">No Post(s) found</span>
                         @endforelse
                     </div>
                     <div class="col-12">
@@ -110,8 +110,7 @@
                                                 <div class="media-body ml-3">
                                                     <h3 style="margin-top:-5px">No Image specified</h3>
                                                     <p class="mb-0 small">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                        …
-                                                    </p>
+                                                        …</p>
                                                 </div>
                                             </a>
                                             <a class="media align-items-center" href="article.html">
@@ -120,8 +119,7 @@
                                                 <div class="media-body ml-3">
                                                     <h3 style="margin-top:-5px">Perfect For Fashion</h3>
                                                     <p class="mb-0 small">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                        …
-                                                    </p>
+                                                        …</p>
                                                 </div>
                                             </a>
                                             <a class="media align-items-center" href="article.html">
@@ -130,8 +128,7 @@
                                                 <div class="media-body ml-3">
                                                     <h3 style="margin-top:-5px">Record Utra Smooth Video</h3>
                                                     <p class="mb-0 small">Lorem ipsum dolor sit amet, consectetur
-                                                        adipiscing …
-                                                    </p>
+                                                        adipiscing …</p>
                                                 </div>
                                             </a>
                                         </div>
@@ -161,5 +158,4 @@
             </div>
         </div>
     </section>
-
 @stop

@@ -10,12 +10,13 @@
                     data-toggle="collapse" data-target="#navigation"> <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
-            <form action="#!" class="search order-lg-3 order-md-2 order-3 ml-auto">
-                <input id="search-query" name="s" type="search" placeholder="Search..." autocomplete="off">
+            <form action="{{ route('search_post') }}" class="search order-lg-3 order-md-2 order-3 ml-auto">
+                <input id="search-query" name="query" value="{{ Request('query') }}" type="search"
+                    placeholder="Search..." autocomplete="off">
             </form>
             <div class="collapse navbar-collapse text-center order-lg-2 order-4" id="navigation">
                 <ul class="navbar-nav mx-auto mt-3 mt-lg-0">
-                    <li class="nav-item"> <a class="nav-link" href="about.html">About Me</a>
+                    <li class="nav-item"> <a class="nav-link" href="#">About Me</a>
                     </li>
                     @foreach (\App\Models\Category::whereHas('subCategories', function ($q) {
         $q->whereHas('posts');
