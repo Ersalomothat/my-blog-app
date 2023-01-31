@@ -1,5 +1,23 @@
 @extends('front.layout.pages-layout')
 @section('title', isset($pageTitle) ? $pageTitle : 'Category Post')
+@section('meta_tags')
+    <meta name="title" content="{{ Str::ucfirst($post->post_title) }}" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview, max-vidio-preview:-1" />
+    <meta name="description" content="{{ Str::ucfirst(words($post->post_content, 120)) }}" />
+    <meta name="author" content="{{ $post->author->username }}" />
+    <link rel="canonical" href="{{ route('read_post', $post->post_slug) }}">
+    <meta property="og:title" content="{{ Str::ucfirst($post->post_title) }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="{{ Str::ucfirst(words($post->post_content, 120)) }}" />
+    <meta property="og:url" content="{{ route('read_post', $post->post_slug) }}" />
+    <meta property="og:image" content="/storage/images/post_images/thumbnails/resized_{{ $post->featured_image }}" />
+    <meta name="twitter:domain" content="{{ Request::getHost() }}" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" property="og:title" itemprop="name" content="{{ Str::ucfirst($post->post_title) }}" />
+    <meta name="twitter:description" property="og:description" itemprop="description"
+        content="{{ Str::ucfirst(words($post->post_content, 120)) }}" />
+    <meta name="twitter:image" content="/storage/images/post_images/thumbnails/resized_{{ $post->featured_image }}" />
+@stop
 @section('content')
     <section class="section">
         <div class="container">
@@ -19,17 +37,34 @@
                                     <path
                                         d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V4z">
                                     </path>
-                                </svg> <span>29 May, 2021</span>
+                                </svg> <span>{{ date_formatter($post->created_at) }}</span>
                             </li>
                         </ul>
                         <h1 class="my-3">{{ $post->post_title }}</h1>
                         <ul class="post-meta mb-4">
-                            <li> <a href="/categories/destination">destination</a>
+                            <li> <a href="{{ route('category_post', $post->subcategory->slug) }}">
+                                    {{ $post->subcategory->subcategory_name }}
+                                </a>
                             </li>
                         </ul>
                         <div class="content text-left">{!! $post->post_content !!}</div>
                     </article>
-
+                    @if (count($related_post) > 0)
+                        <div class="widget-list mt-5">
+                            <h2 class="mb-2">Related Posts</h2>
+                            @foreach ($related_post as $item)
+                                <a class="media align-items-center" href="{{ route('read_post', $post->post_slug) }}">
+                                    <img loading="lazy" decoding="async"
+                                        src="/storage/images/post_images/thumbnails/thumb_{{ $item->featured_image }}"
+                                        alt="Post Thumbnail" class="w-100">
+                                    <div class="media-body ml-3">
+                                        <h3 style="margin-top:-5px">{{ $item->post_title }}</h3>
+                                        <p class="mb-0 small">{!! Str::ucfirst(words($item->post_content, 25)) !!}</p>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
                 <div class="col-lg-4">
                     <div class="widget-blocks">
@@ -66,7 +101,8 @@
                                                             Allow Unvaccinated Tourists</a></h3>
                                                     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing
                                                         elit, sed do eiusmod tempor …</p>
-                                                    <div class="content"> <a class="read-more-btn" href="article.html">Read
+                                                    <div class="content"> <a class="read-more-btn"
+                                                            href="article.html">Read
                                                             Full Article</a>
                                                     </div>
                                                 </div>

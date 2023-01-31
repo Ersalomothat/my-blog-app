@@ -14,7 +14,8 @@
                                 <article class="card article-card article-card-sm h-100">
                                     <a href="{{ route('read_post', $post->post_slug) }}">
                                         <div class="card-image">
-                                            <div class="post-info"> <span class="text-uppercase">04 Jun 2021</span>
+                                            <div class="post-info"> <span
+                                                    class="text-uppercase">{{ date_formatter($post->created_at) }}</span>
                                                 <span class="text-uppercase">3 minutes read</span>
                                             </div>
                                             <img loading="lazy" decoding="async"
@@ -28,13 +29,10 @@
                                                 <a href="#!">news</a>
                                             </li>
                                         </ul>
-                                        <h2><a class="post-title" href="{{ route('read_post', $post->post_slug) }}">Is It
-                                                Ethical to
-                                                Travel Now? With That Freedom
-                                                Comes Responsibility.</a></h2>
-                                        <p class="card-text">Heading Here is example of hedings. You can use this heading by
-                                            following
-                                            markdownify rules. For example: use # for …</p>
+                                        <h2><a class="post-title"
+                                                href="{{ route('read_post', $post->post_slug) }}">{{ $post->post_title }}</a>
+                                        </h2>
+                                        <p class="card-text">{!! Str::ucfirst(words($post->post_title, 25, '...')) !!}</p>
                                         <div class="content"> <a class="read-more-btn"
                                                 href="{{ route('read_post', $post->post_slug) }}">Read Full
                                                 Article</a>
