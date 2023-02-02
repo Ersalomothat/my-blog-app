@@ -25,7 +25,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Neuton:wght@700&family=Work+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-
+    @stack('stylesheets')
     <!-- # CSS Plugins -->
     <link rel="stylesheet" href="/front/theme/plugins/bootstrap/bootstrap.min.css">
 
@@ -45,6 +45,7 @@
     <!-- # JS Plugins -->
     <script src="/front/theme/plugins/jquery/jquery.min.js"></script>
     <script src="/front/theme/plugins/bootstrap/bootstrap.min.js"></script>
+    @stack('scripts')
     <!-- Main Script -->
     <script src="/front/theme/js/script.js"></script>
 
