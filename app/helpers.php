@@ -26,7 +26,7 @@ if (!function_exists('date_formatter')) {
 if (!function_exists('words')) {
     function words($value, $words = 15, $end = "...")
     {
-        return Str::words(strip_tags($value, $words)) . $end;
+        return Str::words(strip_tags($value), $words, $end);
     }
 }
 
@@ -110,6 +110,20 @@ if (!function_exists('categories')) {
         return SubCategory::whereHas('posts')
             ->with('posts')
             ->orderBy('subcategory_name', 'asc')
+            ->get();
+    }
+}
+
+/**
+ * Display latest post
+ * */
+
+if (!function_exists('display_latest_post')) {
+    function display_latest_post($except = null, $limit = 4)
+    {
+        return Post::where('id', '!=', $except)
+            ->limit($limit)
+            ->orderBy('created_at', 'DESC')
             ->get();
     }
 }
