@@ -1,7 +1,8 @@
 <?php
 
 // namespace App; //error jika include
-
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 use App\Models\{Setting, Post, SubCategory};
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -125,5 +126,37 @@ if (!function_exists('display_latest_post')) {
             ->limit($limit)
             ->orderBy('created_at', 'DESC')
             ->get();
+    }
+}
+
+/**
+ * To send email
+ */
+if (!function_exists('sendEmail')) {
+    function sendEmail($emailConfig)
+    {
+        $isSent = false;
+        try {
+            require 'PHPMailer/src/Exception.php';
+            require 'PHPMailer/src/PHPMailer.php';
+            require 'PHPMailer/src/SMTP.php';
+            $email = new PHPMailer(true);
+            $email->SMTPDebug = 0;
+            $email->isSMTP();
+            $email->Username = env('EMAIL_USERNAME');
+            $email->Password = env('EMAIL_Password');
+            $email->SMTPSecure = env('EMAIL_ENCRYPTION');
+            $email->Port = env('EMAIL_PORT');
+            $email->setFrom($emailConfig['mail_from_email'], $emailConfig['mail_from_name']);
+            $email->addAddress($emailConfig['mail_recipient_email'], $emailConfig['mail_recipient_name']);
+            $email->isHTML(true);
+            $email->Subject = $emailConfig['mail_subject'];
+            $email->Body = $emailConfig['mail_body'];
+            $isSent = $email->send() ? true : false;
+        } catch (Exception $e) {
+            dd($e->errorMessage());
+        } finally {
+            return $isSent;
+        }
     }
 }

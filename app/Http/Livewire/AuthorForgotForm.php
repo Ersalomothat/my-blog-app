@@ -55,11 +55,23 @@ class AuthorForgotForm extends Component
             'bodyMessage' => $bodyMessage
         );
         try {
-            Mail::send('forgot-email-template', $data, function ($message) use ($user) {
-                $message->from('noreply@example.com', 'Larablog');
-                $message->to($user->email, $user->name)
-                    ->subject('Reset Passwor');
-            });
+            // Mail::send('forgot-email-template', $data, function ($message) use ($user) {
+            //     $message->from('noreply@example.com', 'Larablog');
+            //     $message->to($user->email, $user->name)
+            //         ->subject('Reset Passwor');
+            // });
+
+            $mail_body = view('forgot-email-template', $data)->render();
+            $email_config = array(
+                'mail_from_email' => env('EMAIL_FROM_ADDRESS'),
+                'mail_from_name' => env('EMAIL_FROM_NAME'),
+                'mail_recipient_email' => $user->email,
+                'mail_recipient_name' => $user->name,
+                'mail_subject' => 'Reset Password',
+                'mail_body' => $mail_body,
+            );
+            sendEmail($email_config);
+
             $this->email = null;
             session()->flash('success', "We have e-mailed your password reset");
         } catch (\Exception $e) {

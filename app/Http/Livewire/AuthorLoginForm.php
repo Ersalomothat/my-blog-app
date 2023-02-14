@@ -35,8 +35,8 @@ class AuthorLoginForm extends Component
                 'login_id' => 'required|exists:users,username',
                 'password' => 'required|min:8'
             ], [
-                'login_id.required' => 'Enter your username',
                 'login_id.username' => 'Invalid username',
+                'login_id.required' => 'Enter your username',
                 'login_id.exists' => 'This username is not registered',
                 'password.required' => 'Enter your password'
             ]);

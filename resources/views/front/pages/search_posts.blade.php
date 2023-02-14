@@ -17,7 +17,8 @@
                                             <div class="post-info"> <span class="text-uppercase">04 Jun 2021</span>
                                                 <span class="text-uppercase">3 minutes read</span>
                                             </div>
-                                            <img loading="lazy" decoding="async" src="images/post/post-1.jpg"
+                                            <img loading="lazy" decoding="async"
+                                                src="/storage/images/post_images/{{ $post->featured_image }}"
                                                 alt="Post Thumbnail" class="w-100" width="420" height="280">
                                         </div>
                                     </a>

@@ -130,11 +130,21 @@ class Authors extends Component
             $author_name = $this->name;
 
             if ($save) {
-                Mail::send('new-author-email-template', $data, function ($message) use ($author_email, $author_name) {
-                    $message->from('noreply@gmail.com');
-                    $message->to($author_email, $author_name)
-                        ->subject('Account creation');
-                });
+                // Mail::send('new-author-email-template', $data, function ($message) use ($author_email, $author_name) {
+                //     $message->from('noreply@gmail.com');
+                //     $message->to($author_email, $author_name)
+                //         ->subject('Account creation');
+                // });
+                $mail_body = view('new-author-email-template', $data)->render();
+                $email_config = array(
+                    'mail_from_email' => env('EMAIL_FROM_ADDRESS'),
+                    'mail_from_name' => env('EMAIL_FROM_NAME'),
+                    'mail_recipient_email' => $author_email,
+                    'mail_recipient_name' => $author_name,
+                    'mail_subject' => 'Reset Password',
+                    'mail_body' => $mail_body,
+                );
+                sendEmail($email_config);
                 $this->showToastr('New author has been added', 'success');
                 $this->dispatchBrowserEvent('hide_add_author_modal');
             } else {

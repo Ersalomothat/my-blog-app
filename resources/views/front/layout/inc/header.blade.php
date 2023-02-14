@@ -1,7 +1,7 @@
 <header class="navigation">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light px-0">
-            <a class="navbar-brand order-1 py-0" href="#">
+            <a class="navbar-brand order-1 py-0" href="/">
                 <img loading="prelaod" decoding="async" class="img-fluid" src="{{ blogInfo()->blog_logo }}"
                     style="width:100px;" alt="Reporter Hugo">
             </a>
@@ -39,7 +39,7 @@
                                 href="{{ route('category_post', $unsubcategory->slug) }}">{{ __($unsubcategory->subcategory_name) }}</a>
                         </li>
                     @endforeach
-                    <li class="nav-item"> <a class="nav-link" href="">Contact</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('contact') }}">Contact</a>
                     </li>
                 </ul>
             </div>
