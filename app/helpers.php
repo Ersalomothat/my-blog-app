@@ -128,6 +128,16 @@ if (!function_exists('display_latest_post')) {
             ->get();
     }
 }
+/**
+ * display all tags
+ * return array
+ */
+if (!function_exists('all_tags')) {
+    function all_tags()
+    {
+        return Post::where('post_tags', '!=', null)->distinct()->pluck('post_tags')->join(',');
+    }
+}
 
 /**
  * To send email
@@ -144,8 +154,9 @@ if (!function_exists('sendEmail')) {
             $email->SMTPDebug = 0;
             $email->isSMTP();
             $email->Username = env('EMAIL_USERNAME');
-            $email->Password = env('EMAIL_Password');
+            $email->Password = env('EMAIL_PASSWORD');
             $email->SMTPSecure = env('EMAIL_ENCRYPTION');
+            // $email->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $email->Port = env('EMAIL_PORT');
             $email->setFrom($emailConfig['mail_from_email'], $emailConfig['mail_from_name']);
             $email->addAddress($emailConfig['mail_recipient_email'], $emailConfig['mail_recipient_name']);
@@ -154,7 +165,7 @@ if (!function_exists('sendEmail')) {
             $email->Body = $emailConfig['mail_body'];
             $isSent = $email->send() ? true : false;
         } catch (Exception $e) {
-            dd($e->errorMessage());
+            dd($e->getMessage());
         } finally {
             return $isSent;
         }

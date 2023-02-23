@@ -49,6 +49,21 @@
                         </ul>
                         <div class="content text-left">{!! $post->post_content !!}</div>
                     </article>
+                    @if ($post->post_tags)
+                        <div class="tags-container mt-4">
+                            <ul class="post-meta">
+                                @foreach (explode(',', $post->post_tags) as $tag)
+                                    <li>
+                                        <a href="{{ route('tag_posts', $tag) }}">{{ __('#' . $tag) }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+
+                        </div>
+                    @endif
+                    <div>
+
+                    </div>
                     <div class="widget-list mt-5">
                         @if (count($related_post) > 0)
                             <h2 class="mb-2">Related Posts</h2>
@@ -123,6 +138,7 @@
                                 </div>
                             </div>
                             <x-categories />
+                            <x-related-tags />
                         </div>
                     </div>
                 </div>

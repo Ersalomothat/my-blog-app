@@ -18,11 +18,14 @@ Route::prefix('author')->name("author")->group(function () {
         Route::post('logout', [AuthController::class, 'logout'])->name("/logout");
         Route::view('profile', 'back/pages/profile')->name("/profile");
         Route::post('change-profile-picture', [AuthController::class, "changeProfilePicture"])->name("/change.profile.picture");
-        Route::view('settings', 'back/pages/settings')->name('/settings');
-        Route::post('change-blog-logo', [AuthController::class, "changeBlogLogo"])->name("/change-blog-logo");
-        Route::post('/change-blog-favicon', [AuthController::class, 'changeBlogFavicon'])->name('.change-blog-favicon');
-        Route::view('authors', 'back.pages.authors')->name('/authors');
-        Route::view('/categories', 'back.pages.categories')->name('.categories');
+
+        Route::middleware(['is_admin'])->group(function () {
+            Route::view('settings', 'back/pages/settings')->name('/settings');
+            Route::post('change-blog-logo', [AuthController::class, "changeBlogLogo"])->name("/change-blog-logo");
+            Route::post('/change-blog-favicon', [AuthController::class, 'changeBlogFavicon'])->name('.change-blog-favicon');
+            Route::view('authors', 'back.pages.authors')->name('/authors');
+            Route::view('/categories', 'back.pages.categories')->name('.categories');
+        });
 
 
         Route::prefix('posts')->name('.posts.')->group(function () {

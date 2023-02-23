@@ -78,4 +78,18 @@ class BlogController extends Controller
         ];
         return view('front.pages.single_post', $data);
     }
+    public function tagPosts(Request $req, $tag)
+    {
+        $posts = Post::where('post_tags', 'like', "%$tag%")
+            ->with('subCategory')
+            ->with('author')
+            ->paginate(6);
+        if (!$posts) return abort(404);
+
+        $data  = array(
+            'pageTitle' => '#' . $tag,
+            'posts' => $posts
+        );
+        return view('front.pages.post-tags', $data);
+    }
 }
