@@ -176,50 +176,41 @@ class AuthController extends Controller
                 'post' => $post,
                 'pageTitle' => 'Edit Post'
             ];
-            return view('back.pages.edit-posts', $data);
+            return view('back.pages.edit-posts', compact('data'));
         }
     }
     public function updatePost(Request $request)
     {
-        if ($request->hasFile('featured_image')) {
-            $request->validate([
+            if ($request->hasFile('featured_image')) {
+                $request->validate([
                 'post_title' => 'required|unique:posts,post_title,' . $request->post_id,
                 'post_content' => 'required',
                 'post_category' => 'required|exists:sub_categories,id',
-                'featured_image' => 'required|mimes:jpeg,jpg,png|max:1024',
+                'featured_image' => 'mimes:jpeg,jpg,png|max:1024',
             ]);
-            $path = 'images/post_images/';
-            $file = $request->file('featured_image');
-            $filename = $file->getClientOriginalName();
-            $new_filename = time() . '_' . $filename;
-            $upload = Storage::disk('public')->put(
-                $path,
-                $new_filename,
-                (string) file_get_contents($file)
-            );
-            $post_thumbnails_path = $path . 'thumbnails/';
-            if (!Storage::disk('public')->exists($post_thumbnails_path)) {
-                Storage::disk('public')->makeDirectory($post_thumbnails_path, 0755, true, true);
-            }
+                $path = "images/post_images/";
+                $file = $request->file('featured_image');
+                $filename = $file->getClientOriginalName();
+                $new_filename = time() . '_' . $filename;
+                $upload = Storage::disk('public')->put($path . $new_filename, (string) file_get_contents($file));
+                $post_thumbnails_path = $path . '/thumbnails';
+                if (!Storage::disk('public')->exists($post_thumbnails_path)) {
+                    Storage::disk('public')->makeDirectory($post_thumbnails_path, 0755, true, true);
+                }
 
-            // create square thumbnail
-            Image::make(storage_path('app/public/' . $path . $new_filename))
-                ->fit(200, 200)
-                ->save(
-                    storage_path(
-                        'app/public/' . $path . 'thumbnails/' . 'thumb_' . $new_filename
-                    )
-                );
-            // create resized image
-            Image::make(storage_path('app/public/' . $path . $new_filename))
-                ->fit(500, 350)
-                ->save(
-                    storage_path(
-                        'app/public/' . $path . 'thumbnails/' . 'resized_' . $new_filename
-                    )
-                );
+
+                // create square thumbnail
+                Image::make(storage_path('app/public/' . $path . $new_filename))
+                    ->fit(200, 200)
+                    ->save(storage_path('app/public/' . $path . 'thumbnails/' . 'thumb_' . $new_filename));
+                // create resized image
+                Image::make(storage_path('app/public/' . $path . $new_filename))
+                    ->fit(500, 350)
+                    ->save(storage_path('app/public/' . $path . 'thumbnails/' . 'resized_' . $new_filename));
+
             if ($upload) {
-                $old_post_image = Post::findOrFail($request->post_id)->featured_image;
+                $post = Post::findOrFail($request->post_id);
+                $old_post_image = $post->featured_image;
                 if ($old_post_image != null && Storage::disk('public')->exists($path . $old_post_image)) {
                     Storage::disk('public')->delete($path . $old_post_image);
                     if (Storage::disk('public')->exists($path . 'thumbnails/resized_' . $old_post_image)) {
@@ -229,11 +220,13 @@ class AuthController extends Controller
                         Storage::disk('public')->delete($path . 'thumbnails/thumb_' . $old_post_image);
                     }
                 }
-                $post = new Post();
+
+//                $post = Post::find($request->post_id);
                 $post->author_id = auth()->id();
                 $post->category_id = $request->post_category;
                 $post->post_title = $request->post_title;
-                //  $post->post_slug = Str::slug($request->post_title);
+                $post->post_slug = null;
+                $post->post_tags = $request->post_tags;
                 $post->post_content = $request->post_content;
                 $post->featured_image = $new_filename;
                 $saved = $post->save();
@@ -251,13 +244,14 @@ class AuthController extends Controller
                 'post_title' => 'required|unique:posts,post_title,' . $request->post_id,
                 'post_content' => 'required',
                 'post_category' => 'required|exists:sub_categories,id',
-                'featured_image' => 'required|mimes:jpeg,jpg,png|max:1024',
+                'featured_image' => 'mimes:jpeg,jpg,png|max:1024',
             ]);
             $post = Post::findOrFail($request->post_id);
             $post->category_id = $request->post_category;
             $post->post_title = $request->post_title;
             $post->post_slug = null;
             $post->post_content = $request->post_content;
+            $post->post_tags = $request->post_tags;
             $saved = $post->save();
             if ($saved) {
                 return response()->json([

@@ -27,13 +27,13 @@ Route::prefix('author')->name("author")->group(function () {
             Route::view('/categories', 'back.pages.categories')->name('.categories');
         });
 
-
         Route::prefix('posts')->name('.posts.')->group(function () {
             Route::view('/add-post', 'back.pages.add-post')->name('add-post');
             Route::post('/create', [AuthController::class, 'createPost'])->name('create');
             Route::view('/all-posts', 'back.pages.all-posts')->name('all-posts');
             Route::get('/edit-post', [AuthController::class, 'editPost'])->name('edit-post');
-            Route::delete('/edit-update', [AuthController::class, 'updatePost'])->name('update-post');
+            Route::put('/update-post', [AuthController::class, 'updatePost'])->name('update-post');
+            Route::delete('/delete-update', [AuthController::class, ''])->name('delete-post');
         });
     });
 });
