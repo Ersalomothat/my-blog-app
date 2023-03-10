@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\{Component, WithPagination};
+use Illuminate\Support\Facades\Storage;
 use App\Models\{Post, User, SubCategory};
 
 class AllPosts extends Component

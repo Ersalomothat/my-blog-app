@@ -59,10 +59,8 @@
                                     <div class="widget-body">
                                         <img loading="lazy" decoding="async" src="/front/source/images/author.jpg"
                                             alt="About Me" class="w-100 author-thumb-sm d-block">
-                                        <h2 class="widget-title my-3">Hootan Safiyari</h2>
-                                        <p class="mb-3 pb-2">Hello, I’m Hootan Safiyari. A Content writter, Developer and
-                                            Story
-                                            teller. Working as a Content writter at CoolTech Agency. Quam nihil …</p> <a
+                                        <h2 class="widget-title my-3">Ersalomo S</h2>
+                                        <p class="mb-3 pb-2">Hi there! It's great to meet you! I'm Ersalomo S., a passionate content writer, blogger, and developer who loves the art of programming. My goal is to craft engaging content that captivates readers and provides valuable insights on a variety of topics. Whether I'm writing about the latest trends in technology or sharing my personal experiences with programming, I always strive to make my content informative, entertaining, and thought-provoking. So, if you're looking for an experienced and creative content writer who can bring your ideas to life, look no further! Let's work together to create something amazing.</p> <a
                                             href="#" class="btn btn-sm btn-outline-primary">Know
                                             More</a>
                                     </div>
@@ -73,36 +71,7 @@
                                     <h2 class="section-title mb-3">Recommended</h2>
                                     <div class="widget-body">
                                         <div class="widget-list">
-                                            <article class="card mb-4">
-                                                <div class="card-image">
-                                                    <div class="post-info"> <span class="text-uppercase">1 minutes
-                                                            read</span>
-                                                    </div>
-                                                    <img loading="lazy" decoding="async" src="images/post/post-9.jpg"
-                                                        alt="Post Thumbnail" class="w-100">
-                                                </div>
-                                                <div class="card-body px-0 pb-1">
-                                                    <h3><a class="post-title post-title-sm" href="article.html">Portugal and
-                                                            France Now
-                                                            Allow Unvaccinated Tourists</a></h3>
-                                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                        elit,
-                                                        sed do eiusmod tempor …</p>
-                                                    <div class="content"> <a class="read-more-btn" href="article.html">Read
-                                                            Full
-                                                            Article</a>
-                                                    </div>
-                                                </div>
-                                            </article>
-                                            <a class="media align-items-center" href="article.html">
-                                                <img loading="lazy" decoding="async" src="images/post/post-2.jpg"
-                                                    alt="Post Thumbnail" class="w-100">
-                                                <div class="media-body ml-3">
-                                                    <h3 style="margin-top:-5px">These Are Making It Easier To Visit</h3>
-                                                    <p class="mb-0 small">Heading Here is example of hedings. You can use …
-                                                    </p>
-                                                </div>
-                                            </a>
+
                                             @component('components.item-post', ['posts' => display_latest_post()])
                                             @endcomponent
                                         </div>

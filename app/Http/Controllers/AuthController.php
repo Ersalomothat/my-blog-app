@@ -21,7 +21,6 @@ class AuthController extends Controller
         Auth::guard('web')->logout();
         return redirect()->route('author.login');
     }
-
     public function ResetForm(Request $request, $token = null)
     {
         $data = [
@@ -29,7 +28,6 @@ class AuthController extends Controller
         ];
         return view('back.pages.auth.reset', $data)->with(['token' => $token, 'email' => $request->email]);
     }
-
     public function changeProfilePicture(Request $request)
     {
         $user = User::find(auth("web")->id());
@@ -52,7 +50,6 @@ class AuthController extends Controller
             return response()->json(['status' => 0, 'Something went wrong']);
         }
     }
-
     public function changeBlogLogo(Request $request)
     {
 
@@ -82,7 +79,6 @@ class AuthController extends Controller
             }
         }
     }
-
     public function changeBlogFavicon(Request $request)
     {
         $settings = Setting::find(1);
@@ -105,7 +101,6 @@ class AuthController extends Controller
             return response()->json(['status' => 0, 'msg' => 'Something went wrong']);
         }
     }
-
     public function createPost(Request $request)
     {
         $request->validate([
