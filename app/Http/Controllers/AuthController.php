@@ -14,7 +14,10 @@ class AuthController extends Controller
 {
     public function index(Request $request)
     {
-        return view('back.pages.home');
+        return view('back.pages.home', [
+            'posts_count' => Post::all(['id'])->count(),
+            'users_count' => User::all(['id'])->count() - 1,
+        ]);
     }
     public function logout()
     {

@@ -55,11 +55,11 @@ class User extends Authenticatable
 
     public function getPictureAttribute($value)
     {
-        if ($value) {
-            return asset("back/dist/img/authors/" . $value);
-        } else {
+//        if ($value !== null) {
+//            return asset("back/dist/img/authors/" . $value);
+//        } else {
+//        }
             return asset("back/dist/img/authors/picture_default.jpg");
-        }
     }
 
     public function scopeSearch($query, $term)

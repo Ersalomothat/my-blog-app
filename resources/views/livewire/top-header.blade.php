@@ -10,7 +10,7 @@
                     class="navbar-brand-image">
             </h1>
             <div class="navbar-nav flex-row order-md-last">
-                <a href="?theme=dark" class="nav-link px-0 hide-theme-dark" title="Enable dark mode"
+                <a href="#!/" class="nav-link px-0 hide-theme-dark" title="Enable dark mode"
                     data-bs-toggle="tooltip" data-bs-placement="bottom">
                     <!-- Download SVG icon from http://tabler-icons.io/i/moon -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
@@ -84,7 +84,7 @@
                 <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link">
+                            <a class="nav-link" href="/author/home#!">
                                 <span class="nav-link-title">
                                     Home
                                 </span>
