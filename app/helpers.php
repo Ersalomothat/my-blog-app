@@ -153,9 +153,11 @@ if (!function_exists('sendEmail')) {
             $email = new PHPMailer(true);
             $email->SMTPDebug = 0;
             $email->isSMTP();
+            $email->Host = env('EMAIL_HOST');
             $email->Username = env('EMAIL_USERNAME');
             $email->Password = env('EMAIL_PASSWORD');
             $email->SMTPSecure = env('EMAIL_ENCRYPTION');
+
             // $email->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $email->Port = env('EMAIL_PORT');
             $email->setFrom($emailConfig['mail_from_email'], $emailConfig['mail_from_name']);
@@ -165,8 +167,9 @@ if (!function_exists('sendEmail')) {
             $email->Body = $emailConfig['mail_body'];
             $isSent = $email->send() ? true : false;
         } catch (Exception $e) {
-            dd($e->getMessage());
+            dd($email->ErrorInfo);
         } finally {
+            dd($isSent);
             return $isSent;
         }
     }
