@@ -1,4 +1,4 @@
-<div>
+    <div>
     {{-- Because she competes with no one, no one can compete with her. --}}
     <div class="row g-2 align-items-center mb-3">
         <div class="col">

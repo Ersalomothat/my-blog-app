@@ -18,10 +18,14 @@ class AllPosts extends Component
         'deletepostAction'
     ];
 
-    public function updatingSearch()
-    {
-        $this->resetPage();
-    }
+        public function updatingSearch()
+        {
+            $this->resetPage();
+        }
+        public function updatingRole()
+        {
+            $this->resetPage();
+        }
     public function updatingAuthor()
     {
         $this->resetPage();

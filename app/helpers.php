@@ -152,14 +152,14 @@ if (!function_exists('sendEmail')) {
             require 'PHPMailer/src/SMTP.php';
             $email = new PHPMailer(true);
             $email->SMTPDebug = 0;
+            $email->Mailer = "smtp";
             $email->isSMTP();
             $email->Host = env('EMAIL_HOST');
             $email->Username = env('EMAIL_USERNAME');
             $email->Password = env('EMAIL_PASSWORD');
-            $email->SMTPSecure = env('EMAIL_ENCRYPTION');
-
-            // $email->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $email->SMTPAuth = true;
             $email->Port = env('EMAIL_PORT');
+            $email->SMTPSecure = env('EMAIL_ENCRYPTION');
             $email->setFrom($emailConfig['mail_from_email'], $emailConfig['mail_from_name']);
             $email->addAddress($emailConfig['mail_recipient_email'], $emailConfig['mail_recipient_name']);
             $email->isHTML(true);
@@ -169,7 +169,6 @@ if (!function_exists('sendEmail')) {
         } catch (Exception $e) {
             dd($email->ErrorInfo);
         } finally {
-            dd($isSent);
             return $isSent;
         }
     }

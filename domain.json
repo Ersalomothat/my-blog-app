@@ -1,0 +1,16 @@
+{
+  "status":"success",
+  "message":"Record berhasil dibuat. Bila hostname belum bisa digunakan tunggu 1 jam untuk proses propagate.",
+  "data":{
+        "addedDNS":[
+            {
+                "hostname":"hot-baths-rush-brightly.a276.dcdg.xyz",
+                "ip":"13.228.200.30"
+            },
+            {
+            "hostname":"www.hot-baths-rush-brightly.a276.dcdg.xyz",
+            "ip":"13.228.200.30"
+            }
+        ]
+    }
+}

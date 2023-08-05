@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -55,11 +56,10 @@ class User extends Authenticatable
 
     public function getPictureAttribute($value)
     {
-//        if ($value !== null) {
-//            return asset("back/dist/img/authors/" . $value);
-//        } else {
-//        }
-            return asset("back/dist/img/authors/picture_default.jpg");
+       if ($value === 'null' or $value === null or $value === '')
+           return asset("back/dist/img/authors/picture_default.jpg");
+        return asset("back/dist/img/authors/" . $value);
+
     }
 
     public function scopeSearch($query, $term)
